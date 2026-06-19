@@ -315,11 +315,11 @@ export const VISUALS: Record<string, VisualDef> = {
     show: ['1H_Crossbow', 'Rogue_Cape'],
   },
   npc_female_shaman: {
-    url: `${BATIDERE_CHARS}/female_npc_rigged.glb`, height: 2.35,
+    url: `${BATIDERE_CHARS}/female_shaman.glb`, height: 2.35,
     clips: {
-      idle: 'female_npc_idle_test', walk: 'female_npc_idle_test', run: 'female_npc_idle_test',
-      attack: ['female_npc_idle_test'], death: 'female_npc_idle_test',
-      hit: ['female_npc_idle_test'], cast: 'female_npc_idle_test',
+      idle: 'shaman_idle', walk: 'shaman_walk', run: 'shaman_walk',
+      attack: ['shaman_walk'], death: 'shaman_idle',
+      hit: ['shaman_idle'], cast: 'shaman_idle',
     },
     tint: 0xd3b486, tintStrength: 0.12,
   },
