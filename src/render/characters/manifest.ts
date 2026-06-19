@@ -40,6 +40,8 @@ export interface VisualDef {
   hover?: number;
   /** yaw applied so the model faces +Z (facing-0 convention) */
   yaw?: number;
+  /** final non-uniform silhouette scale after height normalization */
+  shapeScale?: [number, number, number];
   /** KayKit chars ship every accessory visible: non-skinned mesh nodes to KEEP.
    *  undefined = keep everything (creature GLBs have no accessories). */
   show?: string[];
@@ -111,6 +113,7 @@ const SPIDER: ClipMap = {
 // ---------------------------------------------------------------------------
 
 const CHARS = 'models/chars';
+const BATIDERE_CHARS = 'models/batidere/chars';
 const CREATURES = 'models/creatures';
 const WEAPONS = 'models/weapons';
 
@@ -196,8 +199,10 @@ export const VISUALS: Record<string, VisualDef> = {
     clips: animal(['Attack']), tint: 'entity', tintStrength: 0.35,
   },
   mob_boar: {
-    url: `${CREATURES}/bull.glb`, height: 1.45,
-    clips: animal(['Attack_Headbutt']), tint: 'entity', tintStrength: 0.4,
+    url: `${CREATURES}/bull.glb`, height: 1.12,
+    clips: animal(['Attack_Headbutt']),
+    shapeScale: [1.18, 0.78, 0.88],
+    tint: 0x5a3428, tintStrength: 0.55,
   },
   mob_spider: {
     url: `${CREATURES}/spider.glb`, height: 1.4,
@@ -309,6 +314,15 @@ export const VISUALS: Record<string, VisualDef> = {
     clips: kaykit(['2H_Ranged_Shoot']),
     show: ['1H_Crossbow', 'Rogue_Cape'],
   },
+  npc_female_shaman: {
+    url: `${BATIDERE_CHARS}/female_npc_rigged.glb`, height: 2.35,
+    clips: {
+      idle: 'female_npc_idle_test', walk: 'female_npc_idle_test', run: 'female_npc_idle_test',
+      attack: ['female_npc_idle_test'], death: 'female_npc_idle_test',
+      hit: ['female_npc_idle_test'], cast: 'female_npc_idle_test',
+    },
+    tint: 0xd3b486, tintStrength: 0.12,
+  },
   npc_villager: {
     url: `${CHARS}/rogue.glb`, height: HUMANOID_H,
     clips: kaykit(['1H_Melee_Attack_Chop']),
@@ -364,6 +378,7 @@ const FAMILY_KEYS: Record<string, string> = {
 
 const NPC_KEYS: Record<string, string> = {
   marshal_redbrook: 'npc_knight',
+  female_shaman: 'npc_female_shaman',
   warden_fenwick: 'npc_knight',
   captain_thessaly: 'npc_knight',
   loremaster_caddis: 'npc_mage',

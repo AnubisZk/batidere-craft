@@ -271,10 +271,15 @@ export function prepareVisual(key: string): PreparedVisual {
   const clickRadius = Math.min(2.2, Math.max(0.5,
     Math.max(bounds.max.x, -bounds.min.x, bounds.max.z, -bounds.min.z) * normScale * 0.9));
 
+  const shapeScale = def.shapeScale ?? [1, 1, 1];
   const norm = new THREE.Matrix4()
     .makeTranslation(0, yOffset, 0)
     .multiply(new THREE.Matrix4().makeRotationY(def.yaw ?? 0))
-    .multiply(new THREE.Matrix4().makeScale(normScale, normScale, normScale));
+    .multiply(new THREE.Matrix4().makeScale(
+      normScale * shapeScale[0],
+      normScale * shapeScale[1],
+      normScale * shapeScale[2],
+    ));
 
   const { geo, mats } = bakeStaticPose(temp, norm);
 

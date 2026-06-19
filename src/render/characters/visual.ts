@@ -103,7 +103,12 @@ export class CharacterVisual {
     this.model = assembleModel(prep.def);
     applyMaterials(this.model, prep.def, entityColor);
     this.modelWrap.rotation.y = prep.def.yaw ?? 0;
-    this.modelWrap.scale.setScalar(prep.normScale);
+    const shapeScale = prep.def.shapeScale ?? [1, 1, 1];
+    this.modelWrap.scale.set(
+      prep.normScale * shapeScale[0],
+      prep.normScale * shapeScale[1],
+      prep.normScale * shapeScale[2],
+    );
     this.modelWrap.position.y = prep.yOffset;
     this.modelWrap.add(this.model);
     this.poseWrap.add(this.modelWrap);

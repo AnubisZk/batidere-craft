@@ -164,6 +164,12 @@ export const ZONE1_NPCS: Record<string, NpcDef> = {
     questIds: ['q_spiders'],
     greeting: 'Doğu ormanlarında adımına dikkat et dostum.',
   },
+  female_shaman: {
+    id: 'female_shaman', name: 'Şaman Aylin', title: 'Vadi Şamanı',
+    pos: { x: 10, z: 7.5 }, facing: -2.35, color: 0xd3b486,
+    questIds: [],
+    greeting: 'Toprak da su da konuşur $C. Dinlemeyi bilen yolu bulur.',
+  },
   brother_aldric: {
     id: 'brother_aldric', name: 'Hoca Ali', title: 'Vadi Hocası',
     pos: { x: -14, z: -10 }, facing: 0.8, color: 0xf7f9f9,
