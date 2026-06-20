@@ -310,8 +310,11 @@
   #death-overlay h1 { color: #ddd; font-size: 44px; text-shadow: 2px 2px 8px #000; font-family: var(--title-font); }
 
   /* ---------- start screen ---------- */
-  #start-screen { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, #2a3a55, #0a0d14 75%);
+  #start-screen { position: absolute; inset: 0; background: #0a0d14 url('/loading-screen.jpg') center / cover no-repeat;
     display: flex; align-items: center; justify-content: center; flex-direction: column; z-index: 100; }
+  #start-screen::before { content: ""; position: absolute; inset: 0;
+    background: linear-gradient(90deg, #020304d9 0%, #02030494 42%, #02030455 100%); pointer-events: none; }
+  #start-screen > * { position: relative; z-index: 1; }
   .brand-logo-img {
     width: min(760px, 88vw); height: auto; margin-bottom: 8px; display: block;
     border-radius: 42px; mix-blend-mode: screen;
