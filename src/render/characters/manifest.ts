@@ -113,7 +113,6 @@ const SPIDER: ClipMap = {
 // ---------------------------------------------------------------------------
 
 const CHARS = 'models/chars';
-const BATIDERE_CHARS = 'models/batidere/chars';
 const CREATURES = 'models/creatures';
 const WEAPONS = 'models/weapons';
 
@@ -314,15 +313,6 @@ export const VISUALS: Record<string, VisualDef> = {
     clips: kaykit(['2H_Ranged_Shoot']),
     show: ['1H_Crossbow', 'Rogue_Cape'],
   },
-  npc_female_shaman: {
-    url: `${BATIDERE_CHARS}/female_shaman.glb`, height: 2.35,
-    clips: {
-      idle: 'shaman_idle', walk: 'shaman_walk', run: 'shaman_walk',
-      attack: ['shaman_walk'], death: 'shaman_idle',
-      hit: ['shaman_idle'], cast: 'shaman_idle',
-    },
-    tint: 0xd3b486, tintStrength: 0.12,
-  },
   npc_villager: {
     url: `${CHARS}/rogue.glb`, height: HUMANOID_H,
     clips: kaykit(['1H_Melee_Attack_Chop']),
@@ -378,7 +368,7 @@ const FAMILY_KEYS: Record<string, string> = {
 
 const NPC_KEYS: Record<string, string> = {
   marshal_redbrook: 'npc_knight',
-  female_shaman: 'npc_female_shaman',
+  female_shaman: 'npc_villager_robed',
   warden_fenwick: 'npc_knight',
   captain_thessaly: 'npc_knight',
   loremaster_caddis: 'npc_mage',

@@ -582,7 +582,7 @@ interface DressingSpot {
 }
 
 const DRESS_STEP = 12;
-const DRESS_DENSITY: Record<BiomeId, number> = { vale: 0.26, marsh: 0.26, peaks: 0.15 };
+const DRESS_DENSITY: Record<BiomeId, number> = { vale: 0.26, marsh: 0.34, peaks: 0.15 };
 
 function dressKindFor(biome: BiomeId, r: number): DressKind {
   if (biome === 'vale') {
@@ -592,8 +592,8 @@ function dressKindFor(biome: BiomeId, r: number): DressKind {
     return 'mushroom';
   }
   if (biome === 'marsh') {
-    if (r < 0.3) return 'bush';
-    if (r < 0.62) return 'fern';
+    if (r < 0.24) return 'bush';
+    if (r < 0.78) return 'fern';
     return 'mushroom';
   }
   return r < 0.62 ? 'bush' : 'fern';

@@ -290,6 +290,7 @@ function composeCombat(): Theme {
 const FADE_SECONDS = 2.2;
 const LOOKAHEAD = 0.6;
 const STORAGE_KEY = 'ev_music_on';
+const COMBAT_MUSIC_URL = '/audio/ambush_in_the_reeds.mp3';
 
 // The combat ostinato is written from D3; transpose it onto each zone's tonal
 // center so it never fights the theme underneath:
@@ -313,6 +314,9 @@ export class MusicDirector {
   private reverbSend: GainNode | null = null;
   private layers: Record<string, Layer> = {};
   private timer: number | undefined;
+  private combatTrack: HTMLAudioElement | null = null;
+  private combatFade: number | undefined;
+  private combatTrackTarget = 0;
   // null until the first update() so the initial state always applies — a
   // 'town' sentinel matched the real starting zone and left spawn silent
   private zone: MusicZone | null = null;
@@ -367,6 +371,10 @@ export class MusicDirector {
       gain.connect(this.reverbSend);
       this.layers[name] = { theme, gain, target: 0, anchor: 0, nextIdx: -1, loopCount: 0, transpose: 0 };
     }
+    this.combatTrack = new Audio(COMBAT_MUSIC_URL);
+    this.combatTrack.loop = true;
+    this.combatTrack.preload = 'auto';
+    this.combatTrack.volume = 0;
     this.timer = window.setInterval(() => this.tickScheduler(), 110);
   }
 
@@ -378,6 +386,8 @@ export class MusicDirector {
     if (this.ctx && this.master) {
       this.master.gain.setTargetAtTime(on ? 0.15 : 0, this.ctx.currentTime, 0.3);
     }
+    if (!on) this.fadeCombatTrack(0);
+    else if (this.combat) this.fadeCombatTrack(0.72);
   }
 
   // called every frame by the HUD; cheap unless the state changed
@@ -401,11 +411,33 @@ export class MusicDirector {
     // current on every zone crossing, not just when combat starts, so being
     // chased across a border can't leave it in the previous zone's key
     if (inCombat) combatLayer.transpose = COMBAT_TRANSPOSE[zone];
-    const combatTarget = inCombat ? 1 : 0;
+    const combatTarget = 0;
     if (combatLayer.target !== combatTarget) {
       combatLayer.target = combatTarget;
       combatLayer.gain.gain.setTargetAtTime(combatTarget, now, inCombat ? 0.35 : FADE_SECONDS / 3);
     }
+    this.fadeCombatTrack(inCombat && this._enabled ? 0.72 : 0);
+  }
+
+  private fadeCombatTrack(target: number): void {
+    const audio = this.combatTrack;
+    if (!audio || this.combatTrackTarget === target) return;
+    this.combatTrackTarget = target;
+    if (target > 0 && audio.paused) {
+      audio.currentTime = 0;
+      void audio.play().catch(() => undefined);
+    }
+    if (this.combatFade !== undefined) window.clearInterval(this.combatFade);
+    this.combatFade = window.setInterval(() => {
+      const next = audio.volume + (target - audio.volume) * 0.18;
+      audio.volume = Math.max(0, Math.min(1, next));
+      if (Math.abs(audio.volume - target) < 0.015) {
+        audio.volume = target;
+        if (target === 0) audio.pause();
+        if (this.combatFade !== undefined) window.clearInterval(this.combatFade);
+        this.combatFade = undefined;
+      }
+    }, 50);
   }
 
   private tickScheduler(): void {

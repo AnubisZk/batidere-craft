@@ -16,7 +16,7 @@ export const ZONE1_ZONE: ZoneDef = {
   zMin: -180,
   zMax: 180,
   levelRange: [1, 7],
-  biome: 'vale',
+  biome: 'marsh',
   hub: { x: 0, z: 0, radius: TOWN_RADIUS, name: 'Batıdere' },
   graveyard: GRAVEYARD_POS,
   lakes: [LAKE],
